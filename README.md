@@ -1,4 +1,4 @@
-# node-js-01
+# node-js-hw
 
 npm start — старт сервера в режимі production
 
