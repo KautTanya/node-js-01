@@ -5,42 +5,71 @@ const path = require('path');
 const contactsPath = path.resolve(__dirname, "db/contacts.json");
 
 async function readData(){
-  const dataRaw = await fs.readFile(contactsPath);
-  const data = JSON.parse(dataRaw);
-  return data;
+  try{
+    const dataRaw = await fs.readFile(contactsPath);
+    const data = JSON.parse(dataRaw);
+    return data;
+  } catch(error){
+    console.log(error);
+  }
+
 }
 
 async function writeData(data){
-await fs.writeFile(contactsPath, JSON.stringify(data, null, 2))
+  try{
+    await fs.writeFile(contactsPath, JSON.stringify(data, null, 2))
+  } catch(error){
+    console.log(error);
+  }
+
 }
 
 async function listContacts(){
-  const  info = await readData();
-  return info;
+  try{
+    const  info = await readData();
+    return info;
+  } catch(error){
+    console.log(error);
+  }
+  
 }
 
  async function getContactById(contactId) {
-  const contacts = await listContacts();
-  const contact = contacts.find(contact => contact.id === contactId);
-      if (!contact) {
-        return null;
-      }
-      return contact;
+  try{
+    const contacts = await listContacts();
+    const contact = contacts.find(contact => contact.id === contactId);
+        if (!contact) {
+          return null;
+        }
+        return contact;
+  } catch(error){
+    console.log(error);
+  }
+
   }
 
  async function removeContact(contactId) {
-  const contacts = await readData();
-  const removeData = contacts.filter((contact) => contact.id !== contactId);
-  await writeData(removeData);
-
+  try{
+    const contacts = await readData();
+    const removeData = contacts.filter((contact) => contact.id !== contactId);
+    await writeData(removeData);
+  } catch(error){
+    console.log(error);
+  }
   }
 
 async function addContact(name, email, phone) {
+  try{
     const id = nanoid();
     const newContact = {id, name, email, phone};
     const data = await readData();
     data.push(newContact);
     await writeData(data);
+
+  } catch(error){
+    console.log(error);
+  }
+   
 
   }
 
